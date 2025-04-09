@@ -199,6 +199,7 @@ class SPBMaxSAT
 	void free_memory();
 	bool verify_sol();
 	bool parse_parameters2(int argc, char **argv);
+	bool test();
 };
 
 #endif
