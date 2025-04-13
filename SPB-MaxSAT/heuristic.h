@@ -197,8 +197,14 @@ vector<int> SPBMaxSAT::pick_var()
                 }
             }
 
+            // 添加判断条件，判断两个要翻转的变量是否属于同一子句中，如果是，则只翻转最大变脸，否则翻转两个变量
             best_array.push_back(best_var);
             best_array.push_back(second_best_var);
+            for(int i = 0; i < var_neighbor_count[best_var]; ++i){
+                if(var_neighbor[best_var][i] == second_best_var){
+                    best_array.pop_back(second_best_var);
+                }
+            }
 
             // return best_var; // best_array[rand() % best_array_count];
             return best_array;
