@@ -158,12 +158,16 @@ void SPBMaxSAT::init(vector<int> &init_solution)
     }
 }
 
-int SPBMaxSAT::pick_var()
+// int SPBMaxSAT::pick_var()
+vector<int> SPBMaxSAT::pick_var()
 {
     int i, v;
     int best_var;
     int sel_c;
     lit *p;
+
+    vector<int> best_array;
+    int second_best_var;
 
     if (goodvar_stack_fill_pointer > 0)
     {
@@ -174,12 +178,14 @@ int SPBMaxSAT::pick_var()
         if (goodvar_stack_fill_pointer < hd_count_threshold)
         {
             best_var = goodvar_stack[0];
+            second_best_var = goodvar_stack[0];
 
             for (i = 1; i < goodvar_stack_fill_pointer; ++i)
             {
                 v = goodvar_stack[i];
                 if (score[v] > score[best_var])
                 {
+                    second_best_var = best_var;
                     best_var = v;
                 }
                 else if (score[v] == score[best_var])
@@ -190,7 +196,12 @@ int SPBMaxSAT::pick_var()
                     }
                 }
             }
-            return best_var; // best_array[rand() % best_array_count];
+
+            best_array.push_back(best_var);
+            best_array.push_back(second_best_var);
+
+            // return best_var; // best_array[rand() % best_array_count];
+            return best_array;
         }
         else
         {
@@ -211,7 +222,10 @@ int SPBMaxSAT::pick_var()
                     }
                 }
             }
-            return best_var; // best_array[rand() % best_array_count];
+
+            best_array.push_back(best_var);
+            // return best_var; // best_array[rand() % best_array_count];
+            return best_array;
         }
     }
 
