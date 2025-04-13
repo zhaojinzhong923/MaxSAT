@@ -319,10 +319,20 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
             //     else if (opt_unsat_weight == 0)
             //         return;
             // }
-            int flipvar = pick_var();
-            flip(flipvar);
-            time_stamp[flipvar] = step;
+
+            // int flipvar = pick_var();
+
+            vector<int> flipvars = pick_var();
+            for(int flipvar : flipvars){
+                flip(flipvar);
+                time_stamp[flipvar] = step;
+                
+            }
             total_step++;
+
+            // flip(flipvar);
+            // time_stamp[flipvar] = step;
+            // total_step++;
         }
     }
 }
