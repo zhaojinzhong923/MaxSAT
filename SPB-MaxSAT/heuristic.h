@@ -173,7 +173,9 @@ vector<int> SPBMaxSAT::pick_var()
     {
         int best_array_count = 0;
         if ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE < rdprob)
-            return goodvar_stack[rand() % goodvar_stack_fill_pointer];
+            // return goodvar_stack[rand() % goodvar_stack_fill_pointer];
+            best_array.push_back(goodvar_stack[rand() % goodvar_stack_fill_pointer]);
+            return best_array;
 
         if (goodvar_stack_fill_pointer < hd_count_threshold)
         {
@@ -202,7 +204,7 @@ vector<int> SPBMaxSAT::pick_var()
             best_array.push_back(second_best_var);
             for(int i = 0; i < var_neighbor_count[best_var]; ++i){
                 if(var_neighbor[best_var][i] == second_best_var){
-                    best_array.pop_back(second_best_var);
+                    best_array.pop_back();
                 }
             }
 
@@ -250,7 +252,9 @@ vector<int> SPBMaxSAT::pick_var()
         }
     }
     if ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE < rwprob)
-        return clause_lit[sel_c][rand() % clause_lit_count[sel_c]].var_num;
+        // return clause_lit[sel_c][rand() % clause_lit_count[sel_c]].var_num;
+        best_array.push_back(clause_lit[sel_c][rand() % clause_lit_count[sel_c]].var_num);
+        return best_array;
 
     best_var = clause_lit[sel_c][0].var_num;
     p = clause_lit[sel_c];
@@ -265,7 +269,8 @@ vector<int> SPBMaxSAT::pick_var()
         }
     }
 
-    return best_var;
+    best_array.push_back(best_var);
+    return best_array;
 }
 
 void SPBMaxSAT::local_search_with_decimation(char *inputfile)
