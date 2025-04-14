@@ -186,7 +186,11 @@ class SPBMaxSAT
 	void flip(int flipvar);
 	void update_goodvarstack1(int flipvar);
 	void update_goodvarstack2(int flipvar);
-	int pick_var();
+	// int pick_var();
+
+	// 声明函数更改
+	vector<int> pick_var();
+
 	void soft_increase_weights_not_partial();
 
   public:
