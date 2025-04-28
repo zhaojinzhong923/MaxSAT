@@ -191,7 +191,7 @@ class SPBMaxSAT
 	void update_goodvarstack1(int flipvar);
 	void update_goodvarstack2(int flipvar);
 	int pick_var();
-	void pick_double_var();
+	void pick_double_vars();
 	void soft_increase_weights_not_partial();
 
   public:
