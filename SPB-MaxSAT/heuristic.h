@@ -219,7 +219,7 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
 
 
 
-            if(best_soln_feasible==1){
+            if(best_soln_feasible==1 || ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5){
                 int flipvar = pick_var();
                 flip(flipvar);
                 time_stamp[flipvar] = step;
