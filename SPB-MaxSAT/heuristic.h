@@ -225,7 +225,7 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
                 time_stamp[flipvar] = step;
                 total_step++;
             }else{
-                pick_double_var();
+                pick_double_vars();
             }
 
 

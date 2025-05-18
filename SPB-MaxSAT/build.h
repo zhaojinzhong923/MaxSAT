@@ -123,7 +123,7 @@ void SPBMaxSAT::settings()
                 tuned_org_clause_weight[c] = (double)org_clause_weight[c] / avg_soft_weight;
             }
         }
-        else
+        else // Weighted not Partial MaxSAT
         {
             softclause_weight_threshold = 0;
             soft_smooth_probability = 1E-3;
