@@ -595,15 +595,15 @@ void SPBMaxSAT::pick_double_vars()
                 v = goodvar_stack[rand() % goodvar_stack_fill_pointer];
                 if (score[v] > score[best_var])
                 {
-                    best_var = v;
                     second_best_var = best_var;
+                    best_var = v;
                 }
                 else if (score[v] == score[best_var])
                 {
                     if (time_stamp[v] < time_stamp[best_var])
                     {
-                        best_var = v;
                         second_best_var = best_var;
+                        best_var = v;
                     }
                 }
             }
