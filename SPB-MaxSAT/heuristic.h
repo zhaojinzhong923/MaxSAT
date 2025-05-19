@@ -219,7 +219,8 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
 
 
 
-            if(best_soln_feasible==1 || ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5){
+            // if(best_soln_feasible==1 || ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5){
+            if(((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.1){
                 int flipvar = pick_var();
                 flip(flipvar);
                 time_stamp[flipvar] = step;
@@ -607,8 +608,12 @@ void SPBMaxSAT::pick_double_vars()
                     }
                 }
             }
-            flip(best_var);
-            flip(second_best_var);
+            if(second_best_var != best_var){
+                flip(best_var);
+                flip(second_best_var);
+            }else{
+                flip(best_var);
+            }
             return;
         }
     }
