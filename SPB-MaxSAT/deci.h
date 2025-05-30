@@ -147,6 +147,7 @@ void Decimation::init(int *ls_local_opt, int *ls_global_opt, lit *ls_unit_clause
         unassigned_var[i] = v;
         index_in_unassigned_var[v] = i;
 
+        //变量尚未赋值
         fix[v] = -1;
         sense_in_hunit_clause_queue[v] = -1; // not in hunit queue
         sense_in_sunit_clause_queue[v] = -1; // not in sunit queue
