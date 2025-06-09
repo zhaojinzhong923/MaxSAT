@@ -222,7 +222,9 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
             // if(best_soln_feasible==1 || ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5){
             // if(((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.9){
             // if( (float)hard_unsat_nb/num_hclauses < 0.1 ){
-            if( (float)softunsat_stack_fill_pointer/num_sclauses < 0.2 ){
+            // if( (float)softunsat_stack_fill_pointer/num_sclauses < 0.2 ){
+            if( (((float)hard_unsat_nb/num_hclauses < 0.2) || ((float)softunsat_stack_fill_pointer/num_sclauses < 0.2)) 
+                || ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5)
 
                 int flipvar = pick_var();
                 flip(flipvar);
