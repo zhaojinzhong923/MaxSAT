@@ -234,16 +234,27 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
             //     pick_double_vars();
             // }
 
-
-            if(((float)hard_unsat_nb/num_hclauses > 0.1) && ((float)hard_unsat_nb/num_hclauses < 0.9) && 
-            (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.9)){
-                pick_double_vars();
+            if(local_soln_feasible == 0){
+                if(((float)hard_unsat_nb/num_hclauses > 0.1) && ((float)hard_unsat_nb/num_hclauses < 0.9) && 
+                (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.9)){
+                    pick_double_vars();
+                }else{
+                    int flipvar = pick_var();
+                    flip(flipvar);
+                    time_stamp[flipvar] = step;
+                    total_step++;
+                }
             }else{
-                int flipvar = pick_var();
-                flip(flipvar);
-                time_stamp[flipvar] = step;
-                total_step++;
+                if( ((float)softunsat_stack_fill_pointer/num_sclauses < 0.8) && ((float)softunsat_stack_fill_pointer/num_sclauses > 0.2) && (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.6) ){
+                    pick_double_vars();
+                }else{
+                    int flipvar = pick_var();
+                    flip(flipvar);
+                    time_stamp[flipvar] = step;
+                    total_step++;
+                }
             }
+            
 
 
 
