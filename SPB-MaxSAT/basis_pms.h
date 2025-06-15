@@ -173,6 +173,7 @@ class SPBMaxSAT
 	int best_var;
 	int best_var_count;
 	int second_best_var;
+	int third_best_var;
 
 	//function used in algorithm
 	void build_neighbor_relation();
@@ -192,6 +193,7 @@ class SPBMaxSAT
 	void update_goodvarstack2(int flipvar);
 	int pick_var();
 	void pick_double_vars();
+	void pick_Triple_vars();
 	void soft_increase_weights_not_partial();
 
   public:

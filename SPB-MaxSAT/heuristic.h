@@ -237,7 +237,8 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
             if(local_soln_feasible == 0){
                 if(((float)hard_unsat_nb/num_hclauses > 0.1) && ((float)hard_unsat_nb/num_hclauses < 0.9) && 
                 (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.9)){
-                    pick_double_vars();
+                    // pick_double_vars();
+                    pick_Triple_vars();
                 }else{
                     int flipvar = pick_var();
                     flip(flipvar);
@@ -246,7 +247,8 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
                 }
             }else{
                 if( ((float)softunsat_stack_fill_pointer/num_sclauses < 0.8) && ((float)softunsat_stack_fill_pointer/num_sclauses > 0.2) && (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.6) ){
-                    pick_double_vars();
+                    // pick_double_vars();
+                    pick_Triple_vars();
                 }else{
                     int flipvar = pick_var();
                     flip(flipvar);
@@ -638,6 +640,112 @@ void SPBMaxSAT::pick_double_vars()
             if(second_best_var != best_var){
                 flip(best_var);
                 flip(second_best_var);
+            }else{
+                flip(best_var);
+            }
+            return;
+        }
+    }
+
+    update_clause_weights();
+
+    if (hardunsat_stack_fill_pointer > 0)
+    {
+        sel_c = hardunsat_stack[rand() % hardunsat_stack_fill_pointer];
+    }
+    else
+    {
+        while(1){
+            sel_c = softunsat_stack[rand() % softunsat_stack_fill_pointer];
+            if (clause_lit_count[sel_c] != 0)
+                break;
+        }
+    }
+    if ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE < rwprob)
+        // return clause_lit[sel_c][rand() % clause_lit_count[sel_c]].var_num;
+        flip(clause_lit[sel_c][rand() % clause_lit_count[sel_c]].var_num);
+
+    best_var = clause_lit[sel_c][0].var_num;
+    p = clause_lit[sel_c];
+    for (p++; (v = p->var_num) != 0; p++)
+    {
+        if (score[v] > score[best_var])
+            best_var = v;
+        else if (score[v] == score[best_var])
+        {
+            if (time_stamp[v] < time_stamp[best_var])
+                best_var = v;
+        }
+    }
+
+    // return best_var;
+    flip(best_var);
+}
+
+
+void SPBMaxSAT::pick_Triple_vars()
+{
+    int i, v;
+    // int best_var;
+    int sel_c;
+    lit *p;
+
+    if (goodvar_stack_fill_pointer > 0)
+    {
+        int best_array_count = 0;
+        if ((rand() % MY_RAND_MAX_INT) * BASIC_SCALE < rdprob)
+            // return goodvar_stack[rand() % goodvar_stack_fill_pointer];
+            flip(goodvar_stack[rand() % goodvar_stack_fill_pointer]);
+
+        if (goodvar_stack_fill_pointer < hd_count_threshold)
+        {
+            best_var = goodvar_stack[0];
+
+            for (i = 1; i < goodvar_stack_fill_pointer; ++i)
+            {
+                v = goodvar_stack[i];
+                if (score[v] > score[best_var])
+                {
+                    best_var = v;
+                }
+                else if (score[v] == score[best_var])
+                {
+                    if (time_stamp[v] < time_stamp[best_var])
+                    {
+                        best_var = v;
+                    }
+                }
+            }
+            flip(best_var);
+            // flip(second_best_var);
+            return;
+        }
+        else
+        {
+            best_var = goodvar_stack[rand() % goodvar_stack_fill_pointer];
+            second_best_var = best_var;
+
+            for (i = 1; i < hd_count_threshold; ++i)
+            {
+                v = goodvar_stack[rand() % goodvar_stack_fill_pointer];
+                if (score[v] > score[best_var])
+                {
+                    second_best_var = best_var;
+                    best_var = v;
+                }
+                else if (score[v] == score[best_var])
+                {
+                    if (time_stamp[v] < time_stamp[best_var])
+                    {
+                        second_best_var = best_var;
+                        best_var = v;
+                    }
+                }
+            }
+            if(second_best_var != best_var){
+                flip(best_var);
+                flip(second_best_var);
+                flip(goodvar_stack[rand() % goodvar_stack_fill_pointer]);
             }else{
                 flip(best_var);
             }
