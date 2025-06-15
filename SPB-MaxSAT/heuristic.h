@@ -724,6 +724,7 @@ void SPBMaxSAT::pick_Triple_vars()
         {
             best_var = goodvar_stack[rand() % goodvar_stack_fill_pointer];
             second_best_var = best_var;
+            third_best_var = best_var;
 
             for (i = 1; i < hd_count_threshold; ++i)
             {
