@@ -730,6 +730,7 @@ void SPBMaxSAT::pick_Triple_vars()
                 v = goodvar_stack[rand() % goodvar_stack_fill_pointer];
                 if (score[v] > score[best_var])
                 {
+                    third_best_var = second_best_var;
                     second_best_var = best_var;
                     best_var = v;
                 }
@@ -745,7 +746,7 @@ void SPBMaxSAT::pick_Triple_vars()
             if(second_best_var != best_var){
                 flip(best_var);
                 flip(second_best_var);
-                flip(goodvar_stack[rand() % goodvar_stack_fill_pointer]);
+                flip(third_best_var);
             }else{
                 flip(best_var);
             }
