@@ -235,8 +235,8 @@ void SPBMaxSAT::local_search_with_decimation(char *inputfile)
             // }
 
             // if(local_soln_feasible == 0){
-                if(((float)hard_unsat_nb/num_hclauses > 0.1) && ((float)hard_unsat_nb/num_hclauses < 0.9) && 
-                (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.9)){
+                // if(((float)hard_unsat_nb/num_hclauses > 0.1) && ((float)hard_unsat_nb/num_hclauses < 0.9) && 
+                if(((float)hard_unsat_nb/num_hclauses > 0.2) || (((rand() % MY_RAND_MAX_INT) * BASIC_SCALE) < 0.5)){
                     // pick_double_vars();
                     pick_Triple_vars();
                 }else{
