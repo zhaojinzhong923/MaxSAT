@@ -16,11 +16,43 @@ void HistLS::init(vector<int> &init_solution)
                 already_in_soft_large_weight_stack[c] = 0;
                 clause_selected_count[c] = 0;
 
-                if (org_clause_weight[c] == top_clause_weight)
-                    clause_weight[c] = 1;
-                else
-                {
-                    if ((0 == local_soln_feasible || 0 == best_soln_feasible))
+                // if (org_clause_weight[c] == top_clause_weight)
+                //     clause_weight[c] = 1;
+                // else
+                // {
+                //     if ((0 == local_soln_feasible || 0 == best_soln_feasible))
+                //     { 
+                //         clause_weight[c] = 0;
+                //     }
+                //     else
+                //     {
+                //         if (always_unsat_sc_flag[c] == 1)
+                //             clause_weight[c] = 1;
+                //         else
+                //             clause_weight[c] = 0;
+                //     }
+
+                //     if (clause_weight[c] > s_inc && already_in_soft_large_weight_stack[c] == 0)
+                //     {
+                //         already_in_soft_large_weight_stack[c] = 1;
+                //         soft_large_weight_clauses[soft_large_weight_clauses_count++] = c;
+                //     }
+                // }
+
+
+                if (best_soln_feasible == 0){
+                    if(org_clause_weight[c] == top_clause_weight){
+                        if(sat_count[c] == 0){
+                            clause_weight[c] = 1;
+                        }
+                        else{
+                            clause_weight[c] = 0;
+                        }
+                    }else{
+                        clause_weight[c] = 0;
+                    }
+                }else{
+                    if ((0 == local_soln_feasible))
                     { 
                         clause_weight[c] = 0;
                     }
@@ -344,6 +376,13 @@ void HistLS::local_search_with_decimation(char *inputfile)
                         return;
                     }
 
+                    for (int c = 0; c < num_clauses; ++c) {
+                        if (org_clause_weight[c] == top_clause_weight) 
+                            continue;
+                        else if ((sat_count[c] > 0) && (always_unsat_sc_flag[c] == 1))
+                            always_unsat_sc_flag[c] = 0;
+                    }
+
                     
                 }
                 if (best_soln_feasible == 0)
@@ -357,13 +396,13 @@ void HistLS::local_search_with_decimation(char *inputfile)
             flip(flipvar);
             time_stamp[flipvar] = step;
         }
-        for (int c = 0; c < num_clauses; ++c) 
-        {
-            if (org_clause_weight[c] == top_clause_weight) 
-                continue;
-            else if ((sat_count[c] > 0) && (always_unsat_sc_flag[c] == 1))
-                always_unsat_sc_flag[c] = 0;
-        }
+        // for (int c = 0; c < num_clauses; ++c) 
+        // {
+        //     if (org_clause_weight[c] == top_clause_weight) 
+        //         continue;
+        //     else if ((sat_count[c] > 0) && (always_unsat_sc_flag[c] == 1))
+        //         always_unsat_sc_flag[c] = 0;
+        // }
     }
 }
 
