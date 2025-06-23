@@ -148,6 +148,7 @@ class HistLS
 	int *best_array;
 	int best_count;
 	int *temp_lit;
+	int second_best_var;
 
 	//parameters used in algorithm
 	float rwprob;
@@ -193,6 +194,7 @@ class HistLS
 	long long closestPowerOfTen(double x);
 	int nearestPowerOfTen(double x);
 	int pick_var();
+	void pick_double_vars();
 
   public:
 	HistLS();
